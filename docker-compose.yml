@@ -1,0 +1,30 @@
+services:
+  backend:
+    build: ./backend
+    environment:
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      GOOGLE_CLOUD_TTS_API_KEY: ${GOOGLE_CLOUD_TTS_API_KEY}
+      GOOGLE_CLOUD_STT_API_KEY: ${GOOGLE_CLOUD_STT_API_KEY}
+      MONGODB_URI: ${MONGODB_URI}
+    ports:
+      - "5000:4000"  # เปลี่ยนจาก 4000:4000 เป็น 5000:4000
+    depends_on:
+      - mongo
+
+  frontend:
+    build: ./frontend
+    environment:
+      REACT_APP_BACKEND_URL: ${BACKEND_URL}
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+
+  mongo:
+    image: mongo:4.4
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27017:27017"

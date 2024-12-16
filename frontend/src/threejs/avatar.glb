@@ -1,0 +1,21 @@
+import React, { useEffect, useRef } from 'react';
+import { AvatarScene } from '../threejs/AvatarScene';
+
+function AvatarDisplay() {
+  const mountRef = useRef(null);
+  const avatarSceneRef = useRef(null);
+
+  useEffect(() => {
+    avatarSceneRef.current = new AvatarScene(mountRef.current);
+
+    return () => {
+      if (avatarSceneRef.current) {
+        avatarSceneRef.current.dispose();
+      }
+    };
+  }, []);
+
+  return <div ref={mountRef} style={{ width: '100%', height: '100%' }} />;
+}
+
+export default AvatarDisplay;
